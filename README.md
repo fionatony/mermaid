@@ -24,6 +24,23 @@ This script will:
 4. Start the container
 5. Open your default browser with a sample diagram
 
+## Quick Start for Linux
+
+### One-Click Setup (Linux/bash)
+
+You can set up and run the Mermaid service with a single command in bash:
+
+```bash
+curl -sSL "https://raw.githubusercontent.com/fionatony/mermaid/main/start.sh" | bash
+```
+
+This script will:
+1. Check if Docker is running
+2. Clone the repository
+3. Build the Docker image
+4. Start the container
+5. Open your default browser with a sample diagram
+
 ### Manual Setup
 
 1. Clone the Mermaid repository:
