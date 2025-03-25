@@ -19,7 +19,7 @@ if (!fs.existsSync(tempDir)) {
 }
 
 app.get("/render", async (req, res) => {
-  const { code } = req.query;
+  const { code, format, width, height } = req.query;
 
   if (!code) {
     return res
@@ -30,14 +30,26 @@ app.get("/render", async (req, res) => {
   try {
     // Create unique filename for this request
     const timestamp = Date.now();
+    const outputFormat = format === "svg" ? "svg" : "png";
     const inputFile = path.join(tempDir, `diagram-${timestamp}.mmd`);
-    const outputFile = path.join(tempDir, `diagram-${timestamp}.png`);
+    const outputFile = path.join(
+      tempDir,
+      `diagram-${timestamp}.${outputFormat}`
+    );
 
     // Write mermaid code to temporary file
     fs.writeFileSync(inputFile, decodeURIComponent(code));
 
     // Set up the mmdc command with proper configuration
-    const mmdcCmd = `mmdc-wrapper -i "${inputFile}" -o "${outputFile}" -b transparent -c mmdc-config.json`;
+    let mmdcCmd = `mmdc-wrapper -i "${inputFile}" -o "${outputFile}" -b transparent -c mmdc-config.json`;
+
+    // Add width and height parameters if provided
+    if (width) {
+      mmdcCmd += ` -w ${width}`;
+    }
+    if (height) {
+      mmdcCmd += ` -H ${height}`;
+    }
 
     console.log("Executing command:", mmdcCmd);
 
@@ -57,7 +69,14 @@ app.get("/render", async (req, res) => {
       throw new Error("Output file was not generated");
     }
 
-    // Send the generated PNG file
+    // Set the proper content type based on format
+    if (outputFormat === "svg") {
+      res.contentType("image/svg+xml");
+    } else {
+      res.contentType("image/png");
+    }
+
+    // Send the generated file
     res.sendFile(outputFile, (err) => {
       if (err) {
         console.error(`Error sending file: ${err}`);

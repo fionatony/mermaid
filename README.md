@@ -86,9 +86,64 @@ Example URL:
 http://localhost:7777/render?code=graph TD; A-->B; A-->C; B-->D; C-->D;
 ```
 
+### Output Format Options
+
+By default, diagrams are rendered as PNG images. You can specify the output format using the `format` parameter:
+
+```
+http://localhost:7777/render?code=YOUR_MERMAID_CODE_HERE&format=svg
+```
+
+Supported formats:
+- `png` (default)
+- `svg`
+
+### Custom Dimensions
+
+You can specify custom dimensions for your diagrams using the `width` and `height` parameters:
+
+```
+http://localhost:7777/render?code=YOUR_MERMAID_CODE_HERE&width=800&height=600
+```
+
+Both parameters are optional. You can specify either width, height, or both.
+
+### Complete Example
+
+Generate an SVG diagram with custom dimensions:
+
+```
+http://localhost:7777/render?code=graph TD; A[Start]-->B{Process}; B-->C[End];&format=svg&width=800&height=600
+```
+
+## Example Diagrams
+
+The repository includes several example diagrams in the `samples` directory that demonstrate the capabilities of the service:
+
+1. **Digital Economy Evolution** - A graph showing the evolution of digital economy models
+   - Preview: [`samples/digital_economy.png`](samples/digital_economy.png)
+   - Mermaid: [`samples/digital_economy.mmd`](samples/digital_economy.mmd)
+   - Example URL: `http://localhost:7777/render?code=graph LR; A[Digital Economy Evolution] --> B[Traditional Digital: No Natural Limits]; A --> C[Energy-Backed AI: Natural Constraints]; B --> D[Winner-Take-All Outcomes]; C --> E[Ecological Balance]; E --> F[Specialized Providers]; E --> G[Domain-Specific Models]; E --> H[Local Optimization]; style B fill:#ffcccc; style C fill:#ccffcc; style D fill:#ffdddd; style E fill:#ddffdd`
+
+2. **Business Models Comparison** - A flowchart comparing traditional and AI-driven business models
+   - Preview: [`samples/business_models.png`](samples/business_models.png)
+   - Mermaid: [`samples/business_models.mmd`](samples/business_models.mmd)
+   - Example URL: `http://localhost:7777/render?code=flowchart TD; subgraph "Traditional Digital Business Model"; A[Free Services] --> B[User Data Collection]; B --> C[Behavioral Targeting]; C --> D[Advertising Revenue]; D --> E[Platform Monopoly]; end; subgraph "AI-Driven Business Model"; F[Energy-Backed Services] --> G[Direct Value Pricing]; G --> H[Transparent Exchange]; H --> I[Distributed Value Capture]; end; style A fill:#ffeeee; style F fill:#eeffee; style E fill:#ffcccc; style I fill:#ccffcc`
+
+3. **Hardware Evolution Timeline** - A timeline showing the evolution of hardware for AI
+   - Preview: [`samples/hardware_evolution.png`](samples/hardware_evolution.png)
+   - Mermaid: [`samples/hardware_evolution.mmd`](samples/hardware_evolution.mmd)
+   - Example URL: `http://localhost:7777/render?code=timeline%0A%20%20%20%20title%20Hardware%20Evolution%20for%20AI%0A%20%20%20%201990-2000%20%3A%20CPU%20Era%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3A%20Limited%20Parallelism%0A%20%20%20%202007%20%3A%20NVIDIA%20CUDA%0A%20%20%20%20%20%20%20%20%20%3A%20GPU%20Computing%20Unlocked%0A%20%20%20%202015-2020%20%3A%20TPU%20Development%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3A%20AI-Specific%20Hardware%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3A%20100%2B%20petaFLOPS%0A%20%20%20%202020%2B%20%3A%20Specialized%20AI%20Chips%0A%20%20%20%20%20%20%20%20%20%20%3A%20Neuromorphic%20Computing`
+
+You can view these examples directly in your browser by opening the PNG files, or use them as templates for your own diagrams.
+
 ## API Endpoints
 
-- `GET /render?code=<mermaid-code>`: Generates and returns a PNG image of the Mermaid diagram
+- `GET /render?code=<mermaid-code>`: Generates and returns a diagram image (PNG by default)
+  - Optional parameters:
+    - `format=svg`: Output in SVG format instead of PNG
+    - `width=<pixels>`: Specify the width of the output image
+    - `height=<pixels>`: Specify the height of the output image
 - `GET /health`: Health check endpoint
 
 ## Managing the Container
