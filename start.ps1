@@ -85,19 +85,25 @@ if ($containerStatus) {
     Exit 1
 }
 
+# Properly encode the URL to handle spaces and special characters
+$encodedUrl = [System.Web.HttpUtility]::UrlPathEncode($url)
+
 # Open browser to access Mermaid server
 Write-Host "Opening browser to test the service..."
 try {
+    # Add reference to System.Web for URL encoding
+    Add-Type -AssemblyName System.Web
+    
     # Try Chrome first
-    Start-Process "chrome.exe" -ArgumentList $url -ErrorAction Stop
+    Start-Process "chrome.exe" -ArgumentList "`"$url`"" -ErrorAction Stop
 } catch {
     try {
         # Try Edge as fallback
-        Start-Process "msedge.exe" -ArgumentList $url -ErrorAction Stop
+        Start-Process "msedge.exe" -ArgumentList "`"$url`"" -ErrorAction Stop
     } catch {
         try {
             # Try Firefox as second fallback
-            Start-Process "firefox.exe" -ArgumentList $url -ErrorAction Stop
+            Start-Process "firefox.exe" -ArgumentList "`"$url`"" -ErrorAction Stop
         } catch {
             # If all browsers fail, just show the URL
             Write-Host "Could not automatically open a browser. Please manually navigate to:"
