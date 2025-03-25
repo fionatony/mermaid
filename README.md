@@ -4,10 +4,27 @@ A Dockerized service that generates Mermaid diagrams via URL requests.
 
 ## Prerequisites
 
-- Docker Desktop for Windows 10
+- Docker Desktop for Windows 10 or Docker for Linux
 - Internet connection for pulling Docker images
 
-## Quick Start
+## Quick Start for Windows
+
+### One-Click Setup (PowerShell)
+
+You can set up and run the Mermaid service with a single command in PowerShell:
+
+```powershell
+irm "https://raw.githubusercontent.com/fionatony/mermaid/main/start.ps1" | iex
+```
+
+This script will:
+1. Check if Docker is running
+2. Clone the repository
+3. Build the Docker image
+4. Start the container
+5. Open your default browser with a sample diagram
+
+### Manual Setup
 
 1. Clone the Mermaid repository:
 
