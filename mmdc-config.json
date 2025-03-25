@@ -1,0 +1,8 @@
+{
+  "puppeteerConfig": {
+    "args": ["--disable-gpu", "--disable-dev-shm-usage", "--no-sandbox"],
+    "headless": true,
+    "ignoreHTTPSErrors": true,
+    "executablePath": "/usr/bin/google-chrome-stable"
+  }
+}
